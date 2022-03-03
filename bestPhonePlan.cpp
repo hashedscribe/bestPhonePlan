@@ -16,22 +16,30 @@ class Plan{
             mb = imb;
         }
 
-        double calc(double tot){
-            double x = tot - mb;
+        double calc(double tot, bool overcharge){
+            double x = tot*1000;
             if(x < 0){
                 x = 0;
             }
-            return (price + cmb*(x))/(x + mb);
+            if((x <= mb) && (!overcharge)){
+                return price/x;
+            }else{
+                return (price + cmb*(x))/(x + mb);
+            }
         }
-        void inspect(){
-            cout << "There is no relevant x-intercept." << endl;// x intercept
-            double yint = calc(0);
-            cout << "(" << calc(0) << ", 0) is the y-intercept and is the price of 1 mb there is no overcharge." << endl;// y intercept
-            // va
-            cout << "y = " << cmb << " is the horizontal asymptote." << endl;// ha
-            //range
-            //domain
-            //range
+        void inspect(bool overcharge){
+            if(overcharge){
+                cout << "There is no relevant x-intercept." << endl;// x intercept
+                double yint = calc(0, true);
+                cout << "(" << calc(0, true) << ", 0) is the y-intercept of the overcharge and is the price of 1 mb there is no overcharge." << endl;// y intercept
+                // va
+                cout << "y = " << cmb << " is the horizontal asymptote." << endl;// ha
+                //range
+                //domain
+                //range
+            }else{
+                
+            }
         }
         bool afford(double budget, double tot){
             budget = budget * 100; //turning dollars into cents
@@ -56,14 +64,14 @@ int main(){
     a.setup("The Best Plan", 1000, 15, 500);
     Person bob;
     bob.name = "Bob";
-    bob.mdata = 0.5;
-    bob.budget = 10;
+    bob.mdata = 0.1; //in gb
+    bob.budget = 100; //in dollars
 
-    cout << endl << "Price per mb (cents): " << a.calc(bob.mdata) << endl;
+    cout << endl << "Price per mb (cents): " << a.calc(bob.mdata, false) << endl;
     a.inspect();
     if(a.afford(bob.budget, bob.mdata)){
         cout << endl << a.name << " is within your budget and will be considered." << endl;
     }else{
-        cout << endl << a.name << " exceeds your budget. Consider lowering your data usage. Or stop being poor." << endl;
+        cout << endl << a.name << " exceeds your budget. Consider lowering your data usage or not being poor." << endl;
     }
 }
