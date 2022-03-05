@@ -1,0 +1,17 @@
+Roberts TheBestPlan 5000 15 500
+Roberts ABetterPlan 6500 15 1000
+Belle Plan1 3000 15 500
+Belle Plan2 4000 15 2500
+Belle Plan3 4500 15 4500
+Belle Plan4 5500 15 8000
+Finder WoofA 5500 5 750
+Finder BorkA 6000 2 1000
+Finder BorkB 7000 2 2000
+Dooko TheRoamerI 5500 13 10000
+Dooko TheRoamerII 6000 13 15000
+Dooko TheStarterI 1500 13 250
+Dooko TheStarterII 3750 13 4000
+Telmi NationwideTTD30 3000 15 500
+Telmi NationwideTTD40 4000 15 2500
+Telmi NationwideTTD45 4500 15 4500
+Telmi NationwideTTD55 5500 15 8000
