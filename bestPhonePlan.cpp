@@ -75,7 +75,7 @@ int main(){
 
     Person bob;
     bob.name = "Bob";
-    bob.mdata = 1; //in gb
+    bob.mdata = 3; //in gb
     bob.budget = 40; //in dollars
 
     for(int i = 0; i < numOfPlan; i++){
