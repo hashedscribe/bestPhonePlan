@@ -10,7 +10,7 @@ class Plan{
         string company, planName;
         double basePrice, rate, baseMb; //base price (cents and mb)
 
-        double calc(double tot, bool overcharge){
+        double calcx(double tot, bool overcharge){
             double x = tot*1000;
             if(x < 0){
                 x = 0;
@@ -21,12 +21,19 @@ class Plan{
                 return (basePrice + rate*(x))/(x + baseMb);
             }
         }
+        double calcy(double cpmb, bool overcharge){
+            if(overcharge){
+                return (cpmb * baseMb + basePrice)/rate - cpmb;
+            }else{
+                return basePrice/cpmb;
+            }
+        }
         void inspect(bool overcharge){
             if(overcharge){
-                double yint = calc(0, true);
+                double yint = calcx(0, true);
                 cout << "With your current usage, you will go over the given data." << endl << endl;
                 cout << "There is no relevant x-intercept." << endl;// x intercept
-                cout << "(" << calc(0, true) << ", 0) is the y-intercept of the overcharge and is the price of 1 mb there is no overcharge." << endl;// y intercept
+                cout << "(" << calcx(0, true) << ", 0) is the y-intercept of the overcharge and is the price of 1 mb there is no overcharge." << endl;// y intercept
                 cout << "There is no relevant vertical asymptote." << endl;
                 cout << "y = " << rate << " is the horizontal asymptote. You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
                 //range
@@ -77,7 +84,7 @@ int main(){
     for(int i = 0; i < numOfPlans; i++){
         cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
         //bool if overcharge by seeing if data used each month exceeds the provided
-        cout << "Price per mb (cents): " << plan[i].calc(bob.mdata, bob.mdata * 1000 > plan[i].baseMb) << endl;
+        cout << "Price per mb (cents): " << plan[i].calcx(bob.mdata, bob.mdata * 1000 > plan[i].baseMb) << endl;
         if(plan[i].afford(bob.budget, bob.mdata)){ //test if they can afford each plan
             cout << plan[i].company << "'s " << plan[i].planName << " is within your budget and will be considered." << endl << endl;
         }else{
