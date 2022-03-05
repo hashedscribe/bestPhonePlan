@@ -62,28 +62,28 @@ class Person{
 int main(){
     Person bob;
     bob.name = "Bob";
-    bob.mdata = 1; //in gb
+    bob.mdata = 10; //in gb
     bob.budget = 70; //in dollars
 
     int numOfPlans;
-
     cin >> numOfPlans;
     Plan plan[numOfPlans];
     for(int i = 0; i < numOfPlans; i++){
         cin >> plan[i].company >> plan[i].planName >> plan[i].basePrice >> plan[i].rate >> plan[i].baseMb;
     }
     cout << endl;
-    for(int i = 0; i < numOfPlans; i++){
-        cout << plan[i].company << " " << plan[i].planName << " " << plan[i].basePrice << " " << plan[i].rate << " " << plan[i].baseMb << " " << endl;
-    }
-    // for(int i = 0; i < 5; i++){
-    //     cout << plan[i].name << ": " << endl;
-    //     cout << endl << "Price per mb (cents): " << plan[i].calc(bob.mdata, bob.mdata * 1000 > plan[i].mb) << endl;
-    //     plan[i].inspect(bob.mdata * 1000 > plan[i].mb);
-    //     if(plan[i].afford(bob.budget, bob.mdata)){
-    //         cout << plan[i].name << " is within your budget and will be considered." << endl;
-    //     }else{
-    //         cout << plan[i].name << " exceeds your budget. Consider lowering your data usage or not being poor." << endl << endl;
-    //     }
+    // for(int i = 0; i < numOfPlans; i++){
+    //     cout << plan[i].company << " " << plan[i].planName << " " << plan[i].basePrice << " " << plan[i].rate << " " << plan[i].baseMb << " " << endl;
     // }
+
+    for(int i = 0; i < numOfPlans; i++){
+        cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
+        cout << "Price per mb (cents): " << plan[i].calc(bob.mdata, bob.mdata * 1000 > plan[i].baseMb) << endl;
+        //plan[i].inspect(bob.mdata * 1000 > plan[i].mb);
+        if(plan[i].afford(bob.budget, bob.mdata)){
+            cout << plan[i].company << "'s " << plan[i].planName << " is within your budget and will be considered." << endl << endl;
+        }else{
+            cout << plan[i].company << "'s " << plan[i].planName << " exceeds your budget. Consider lowering your data usage or not being poor." << endl << endl;
+        }
+    }
 }
