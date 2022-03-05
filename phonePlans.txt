@@ -15,3 +15,13 @@ Telmi NationwideTTD30 3000 15 500
 Telmi NationwideTTD40 4000 15 2500
 Telmi NationwideTTD45 4500 15 4500
 Telmi NationwideTTD55 5500 15 8000
+Horizon Dawn 5070 15 5000
+Horizon Dusk 6337 10 15000
+B-Mobile Better 3184 10 4000
+B-Mobile Baster 2547 10 3000
+B-Mobile Bmarter 90 5 25000
+
+
+
+
+B-Mobile plans do not represent T-Mobile plans fully
