@@ -21,7 +21,7 @@ Horizon Dawn 5070 15 5000
 Horizon Dusk 6337 10 15000
 B-Mobile Better 3184 10 4000
 B-Mobile Baster 2547 10 3000
-B-Mobile Bmarter 90 5 25000
+B-Mobile Bmarter 9000 5 25000
 
 
 
