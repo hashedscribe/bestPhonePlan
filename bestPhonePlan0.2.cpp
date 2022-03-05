@@ -61,34 +61,44 @@ class Plan{
 class Person{
     public: 
         string name;
-        double mdata; //monthly data usage in (gb)
+        double used; //monthly data usage in (gb)
         double budget; //max price ($)
+        double ripoff;
         vector <double> deals;
 };
 
 int main(){
-    Person bob;
-    bob.name = "Bob";
-    bob.mdata = 10; //in gb
-    bob.budget = 70; //in dollars
+    int numOfPeople;
+    cout << "Please enter the number of people considering phone plans: ";
+    cin >> numOfPeople;
+    Person person[numOfPeople];
+    cout << "Please enter each person's name, data used, budget, ripoff number: " << endl;
+    for(int i = 0; i < numOfPeople; i++){
+        cin >> person[i].name >> person[i].used >> person[i].budget >> person[i].ripoff;
+    }
+    cout << endl;
 
     int numOfPlans;
+    cout << "Please enter the number of plans to be considered: ";
     cin >> numOfPlans;
     Plan plan[numOfPlans];
+    cout << "Please enter each plan's company, name, base price, overcharge rate, and mb provided: " << endl;
     for(int i = 0; i < numOfPlans; i++){
         //take in inputs of each plan
         cin >> plan[i].company >> plan[i].planName >> plan[i].basePrice >> plan[i].rate >> plan[i].baseMb;
     }
     cout << endl;
 
-    for(int i = 0; i < numOfPlans; i++){
-        cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
-        //bool if overcharge by seeing if data used each month exceeds the provided
-        cout << "Price per mb (cents): " << plan[i].calcx(bob.mdata, bob.mdata * 1000 > plan[i].baseMb) << endl;
-        if(plan[i].afford(bob.budget, bob.mdata)){ //test if they can afford each plan
-            cout << plan[i].company << "'s " << plan[i].planName << " is within your budget and will be considered." << endl << endl;
-        }else{
-            cout << plan[i].company << "'s " << plan[i].planName << " exceeds your budget. Consider lowering your data usage or not being poor." << endl << endl;
+    for(int j = 0; j < numOfPeople; j++){
+        for(int i = 0; i < numOfPlans; i++){
+            cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
+            //bool if overcharge by seeing if data used each month exceeds the provided
+            cout << "Price per mb (cents): " << plan[i].calcx(person[j].used, person[j].used * 1000 > plan[i].baseMb) << endl;
+            if(plan[i].afford(person[j].budget, person[j].used)){ //test if they can afford each plan
+                cout << plan[i].company << "'s " << plan[i].planName << " is within " << person[j].name << "'s budget and will be considered." << endl << endl;
+            }else{
+                cout << plan[i].company << "'s " << plan[i].planName << " exceeds " << person[j].name << "'s budget. Consider lowering your data usage or not being poor." << endl << endl;
+            }
         }
     }
 }
