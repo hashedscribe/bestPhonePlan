@@ -81,6 +81,14 @@ class Person{
         double budget; //max price ($)
         double ripoff;
         vector <PersonsPlan> deals;
+
+        void printPlans(){
+            for(int i = 0; i < deals.size(); i++){
+                cout << deals[i].company << "'s " << deals[i].planName << ": " << endl;
+                cout << "Price per mb (cents): " << deals[i].calcx << endl;
+                cout << deals[i].company << "'s " << deals[i].planName << " is within " << name << "'s budget and will be considered." << endl << endl;
+            }
+        }
 };
 
 int main(){
@@ -114,20 +122,14 @@ int main(){
             tempCalcx = plan[i].calcx(person[j].used, tempAfford);
             tempCalcy = plan[i].calcy(person[j].ripoff, tempAfford);
 
-            // cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
-            // //bool if overcharge by seeing if data used each month exceeds the provided
-            // cout << "Price per mb (cents): " << tempCalcx << endl;
             if(tempAfford){ //test if they can afford each plan
                 person[j].deals.push_back(PersonsPlan());
                 person[j].deals[person[j].deals.size()-1].setup(plan[i].company, plan[i].planName, tempCalcx, tempCalcy);
-
-                cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
-                cout << "Price per mb (cents): " << tempCalcx << endl;
-                cout << plan[i].company << "'s " << plan[i].planName << " is within " << person[j].name << "'s budget and will be considered." << endl << endl;
             }
-            // }else{
-            //     cout << plan[i].company << "'s " << plan[i].planName << " exceeds " << person[j].name << "'s budget. Consider lowering your data usage or not being poor." << endl << endl;
-            // }
+
         }
+    }
+    for(int i = 0; i < numOfPeople; i++){
+        person[i].printPlans();
     }
 }
