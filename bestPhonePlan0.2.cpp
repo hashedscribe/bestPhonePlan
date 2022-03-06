@@ -11,14 +11,14 @@ class Plan{
         double basePrice, rate, baseMb; //base price (cents and mb)
 
         double calcx(double tot, bool overcharge){
-            double x = tot*1000;
-            if(x < 0){
-                x = 0;
+            tot = tot*1000;
+            if(tot < 0){
+                tot = 0;
             }
-            if((x <= baseMb) && (!overcharge)){
-                return basePrice/x;
+            if((tot <= baseMb) && (!overcharge)){
+                return basePrice/tot;
             }else{
-                return (basePrice + rate*(x))/(x + baseMb);
+                return (basePrice + rate*(tot))/(tot + baseMb);
             }
         }
         double calcy(double cpmb, bool overcharge){
@@ -51,11 +51,16 @@ class Plan{
         bool afford(double budget, double tot){
             budget = budget * 100; //turning dollars into cents
             tot = tot*1000; //turning gb into mb
-            if((basePrice + rate*(tot-baseMb)) <= budget){
-                return true;
+            if(basePrice <= budget){
+                if((basePrice + rate*(tot-baseMb)) <= budget){
+                    return true;
+                }else{
+                    return false;
+                }
             }else{
                 return false;
             }
+
         }
 };
 class PersonsPlan{
@@ -109,16 +114,20 @@ int main(){
             tempCalcx = plan[i].calcx(person[j].used, tempAfford);
             tempCalcy = plan[i].calcy(person[j].ripoff, tempAfford);
 
-            cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
-            //bool if overcharge by seeing if data used each month exceeds the provided
-            cout << "Price per mb (cents): " << tempCalcx << endl;
+            // cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
+            // //bool if overcharge by seeing if data used each month exceeds the provided
+            // cout << "Price per mb (cents): " << tempCalcx << endl;
             if(tempAfford){ //test if they can afford each plan
                 person[j].deals.push_back(PersonsPlan());
                 person[j].deals[person[j].deals.size()-1].setup(plan[i].company, plan[i].planName, tempCalcx, tempCalcy);
+
+                cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
+                cout << "Price per mb (cents): " << tempCalcx << endl;
                 cout << plan[i].company << "'s " << plan[i].planName << " is within " << person[j].name << "'s budget and will be considered." << endl << endl;
-            }else{
-                cout << plan[i].company << "'s " << plan[i].planName << " exceeds " << person[j].name << "'s budget. Consider lowering your data usage or not being poor." << endl << endl;
             }
+            // }else{
+            //     cout << plan[i].company << "'s " << plan[i].planName << " exceeds " << person[j].name << "'s budget. Consider lowering your data usage or not being poor." << endl << endl;
+            // }
         }
     }
 }
