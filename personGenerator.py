@@ -1,5 +1,4 @@
 import random
-from unittest.util import _count_diff_all_purpose
 count = 0
 x = int(input("How many people to generate?"))
 

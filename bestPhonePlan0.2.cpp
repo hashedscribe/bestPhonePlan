@@ -102,6 +102,9 @@ class Person{
                 }
             }
         }
+        void ripoff(){
+
+        }
 };
 
 int main(){
@@ -145,8 +148,8 @@ int main(){
     }
 
     int choice;
-    string opt[7] = {"See Names", "See Plans", "See Rankings", "Inspect Plans", "See Ripoff", "HOME", "QUIT"};
-    for(int i = 0; i < 7; i++){
+    string opt[5] = {"See Rankings", "Inspect Plans", "See Ripoff", "HOME", "QUIT"};
+    for(int i = 0; i < 5; i++){
         cout << i+1 << ". " << opt[i] << endl;
     }
     cout << "Type in the corresponding number for the action you'd like to do: ";
@@ -156,15 +159,8 @@ int main(){
             for(int i = 0 ; i < numOfPeople; i++){
                 cout << i + 1 << ". " << person[i].name << endl;
             }
-            cin >> choice; cout << endl;
-        case 2:
-            for(int i = 0; i < numOfPlans; i++){
-                cout << i + 1 << ". " << plan[i].company << " " << plan[i].planName << endl;
-            }
-            cin >> choice; cout << endl;
-        case 3:
-            int rankChoice; 
-            cout << "Please select a person to view rankings. Alternatively, enter 0 to see all." << endl;
+            int rankChoice;
+            cout << "Please select a person you'd like to view rankings for. Alternatively, enter 0 to see all." << endl;
             cin >> rankChoice;
             if(rankChoice == 0){
                 for(int i = 0; i < numOfPeople; i++){
@@ -173,14 +169,39 @@ int main(){
                 }
             }else{
                 person[rankChoice - 1].printPlans();
-            }
-            cin >> choice; cout << endl;
-        case 4:
-            for(int i = 0; i < numOfPlans; i++){
-                cout << plan[i].company << "'s " << plan[i].planName << endl;
-                plan[i].inspect();
                 cout << "--------------------" << endl << endl;
             }
             cin >> choice; cout << endl;
+        case 2:
+            int inspectChoice;
+            for(int i = 0; i < numOfPlans; i++){
+                cout << i + 1 << ". " << plan[i].company << " " << plan[i].planName << endl;
+            }
+            cout << "Please select a plan you'd like to inspect. Alternatively, enter 0 to see all." << endl;
+            cin >> inspectChoice;
+            if(inspectChoice == 0){
+                for(int i = 0; i < numOfPlans; i++){
+                    cout << plan[i].company << "'s " << plan[i].planName << endl;
+                    plan[i].inspect();
+                    cout << "--------------------" << endl << endl;
+                }
+            }else{
+                cout << plan[inspectChoice -1].company << "'s " << plan[inspectChoice -1].planName << endl;
+                plan[inspectChoice -1].inspect();
+                cout << "--------------------" << endl << endl;
+            }
+            cin >> choice; cout << endl;
+        case 3:
+            for(int i = 0 ; i < numOfPeople; i++){
+                cout << i + 1 << ". " << person[i].name << endl;
+            }
+            for(int i = 0; i < numOfPlans; i++){
+                cout << i + 1 << ". " << plan[i].company << " " << plan[i].planName << endl;
+            }
+            int personRangeStart, personRangeEnd, planRangeStart, planRangeEnd;
+            cout << "Please enter the start and end of the people you'd like to include in the ripoff judgement (inclusive): ";
+            cin >> personRangeStart >> personRangeEnd;
+            cout << "Please enter the start and end of the plans you'd like to include in the ripoff judgement (inclusive): ";
+            cin >> planRangeStart >> planRangeEnd;
     }
 }
