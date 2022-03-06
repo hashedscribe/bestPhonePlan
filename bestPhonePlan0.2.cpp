@@ -10,12 +10,12 @@ class Plan{
         string company, planName;
         double basePrice, rate, baseMb; //base price (cents and mb)
 
-        double calcx(double tot){
+        double calcx(double tot, bool inspect){
             tot = tot*1000;
             if(tot < 0){
                 tot = 0;
             }
-            if(tot <= baseMb){
+            if((tot <= baseMb) && (inspect == false)){
                 return basePrice/tot;
             }else{
                 return (basePrice + rate*(tot))/(tot + baseMb);
@@ -28,25 +28,22 @@ class Plan{
                 return basePrice/cpmb;
             }
         }
-        void inspect(bool overcharge){
-            if(overcharge){
-                double yint = calcx(0);
-                cout << "With your current usage, you will go over the given data." << endl << endl;
-                cout << "There is no relevant x-intercept." << endl;// x intercept
-                cout << "(" << calcx(0) << ", 0) is the y-intercept of the overcharge and is the price of 1 mb there is no overcharge." << endl;// y intercept
-                cout << "There is no relevant vertical asymptote." << endl;
-                cout << "y = " << rate << " is the horizontal asymptote. You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
+        void inspect(){
+            cout << "Without overcharge: " << endl; 
+            cout << "There is no x or y intercept." << endl; //x int
+            cout << "The vertical asymptote is at x = 0. You cannot find an average cost per mb if no mb is used." << endl; //va
+            cout << "The horizontal asymptote is 0. The data will never be free." << endl; //ha
                 //range
                 //domain
-            }else{
-                cout << "Your current usage is within the given data." << endl << endl; 
-                cout << "There is no relevant x-intercept." << endl; //x int
-                cout << "There is no relevant y-intercept." << endl; //y int
-                cout << "The vertical asymptote is at x = 0. You cannot find an average cost per mb if no mb is used." << endl; //va
-                cout << "The horizontal asymptote is 0. The data will never be free." << endl; //ha
-                //range
-                //domain
-            }
+            cout << endl;
+
+            cout << "With overcharge: " << endl;
+            cout << "There is no relevant x-intercept." << endl;// x intercept
+            cout << "(" << calcx(0, true) << ", 0) is the y-intercept of the overcharge and is the price of 1 mb there is no overcharge." << endl;// y intercept
+            cout << "There is no relevant vertical asymptote." << endl;
+            cout << "y = " << rate << " is the horizontal asymptote. You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
+            //range
+            cout << endl;
         }
         bool afford(double budget, double tot){
             budget = budget * 100; //turning dollars into cents
@@ -85,7 +82,7 @@ class Person{
 
         void printPlans(){
             if(deals.size() == 0){
-                cout << name << " cannot afford any of the plans. Consider using less data or just stop being poor." << endl;
+                cout << name << " cannot afford any of the plans. Consider using less data or just stop being poor." << endl << endl;
             }else{
                 for(int i = 0; i < deals.size(); i++){
                     cout << deals[i].company << "'s " << deals[i].planName << ": " << endl;
@@ -117,7 +114,6 @@ int main(){
     for(int i = 0; i < numOfPeople; i++){
         cin >> person[i].name >> person[i].used >> person[i].budget >> person[i].ripoff;
     }
-    cout << endl;
 
     int numOfPlans;
     cout << "Please enter the number of plans to be considered: ";
@@ -136,7 +132,7 @@ int main(){
     for(int j = 0; j < numOfPeople; j++){
         for(int i = 0; i < numOfPlans; i++){
             tempAfford = plan[i].afford(person[j].budget, person[j].used);
-            tempCalcx = plan[i].calcx(person[j].used);
+            tempCalcx = plan[i].calcx(person[j].used, false);
             tempCalcy = plan[i].calcy(person[j].ripoff, person[j].used > plan[i].baseMb);
 
             if(tempAfford){ //test if they can afford each plan
@@ -147,7 +143,45 @@ int main(){
     }
     for(int i = 0; i < numOfPeople; i++){
         person[i].rank();
-        person[i].printPlans();
-        cout << "--------------------" << endl;
+    }
+
+    int choice;
+    string opt[7] = {"See Names", "See Plans", "See Rankings", "Inspect Plans", "See Ripoff", "HOME", "QUIT"};
+    cout << "Type in the corresponding number for the action you'd like to do." << endl;
+    for(int i = 0; i < 7; i++){
+        cout << i+1 << ". " << opt[i] << endl;
+    }
+    cin >> choice;
+    switch(choice){
+        case 1:
+            for(int i = 0 ; i < numOfPeople; i++){
+                cout << i + 1 << ". " << person[i].name << endl;
+            }
+            cin >> choice;
+        case 2:
+            for(int i = 0; i < numOfPlans; i++){
+                cout << i + 1 << ". " << plan[i].company << " " << plan[i].planName << endl;
+            }
+            cin >> choice;
+        case 3:
+            int rankChoice; 
+            cout << "Please select a person to view rankings. Alternatively, enter 0 to see all." << endl;
+            cin >> rankChoice;
+            if(rankChoice == 0){
+                for(int i = 0; i < numOfPeople; i++){
+                    person[i].printPlans();
+                    cout << "--------------------" << endl << endl;
+                }
+            }else{
+                person[rankChoice - 1].printPlans();
+            }
+            cin >> choice;
+        case 4:
+            for(int i = 0; i < numOfPlans; i++){
+                cout << plan[i].company << "'s " << plan[i].planName << endl;
+                plan[i].inspect();
+                cout << "--------------------" << endl << endl;
+            }
+
     }
 }
