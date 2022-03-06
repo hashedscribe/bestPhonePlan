@@ -1,8 +1,6 @@
 #include <iostream>
-#include <cmath>
 #include <string>
 #include <vector>
-#include <fstream>
 using namespace std;
 
 class Plan{
@@ -10,12 +8,12 @@ class Plan{
         string company, planName;
         double basePrice, rate, baseMb; //base price (cents and mb)
 
-        double calcx(double tot, bool inspect){
+        double calcx(double tot, bool overcharge){
             tot = tot*1000;
             if(tot < 0){
                 tot = 0;
             }
-            if((tot <= baseMb) && (inspect == false)){
+            if((tot <= baseMb) && (overcharge == false)){
                 return basePrice/tot;
             }else{
                 return (basePrice + rate*(tot))/(tot + baseMb);
@@ -31,18 +29,19 @@ class Plan{
         void inspect(){
             cout << "Without overcharge: " << endl; 
             cout << "There is no x or y intercept." << endl; //x int
-            cout << "The vertical asymptote is at x = 0. You cannot find an average cost per mb if no mb is used." << endl; //va
-            cout << "The horizontal asymptote is 0. The data will never be free." << endl; //ha
-                //range
-                //domain
+            cout << "VA: y = 0. You cannot find an average cost per mb if no mb is used." << endl; //va
+            cout << "HA: y = 0. The data will never be free." << endl; //ha
+            cout << "Range: {xER || 0 < x <= " << baseMb << "}" << endl;
+            cout << "Domain: {yER || y >= " << calcx(0, true) << "}" << endl;
             cout << endl;
 
             cout << "With overcharge: " << endl;
-            cout << "There is no relevant x-intercept." << endl;// x intercept
-            cout << "(" << calcx(0, true) << ", 0) is the y-intercept of the overcharge and is the price of 1 mb there is no overcharge." << endl;// y intercept
+            cout << "There is no relelvant x intercept." << endl;
+            cout << "y intercept: " << calcx(0, true) << ". price of 1 mb there is no overcharge" << endl;
             cout << "There is no relevant vertical asymptote." << endl;
-            cout << "y = " << rate << " is the horizontal asymptote. You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
-            //range
+            cout << "HA: y = " << rate << ". You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
+            cout << "Range: {xER || x > " << baseMb << "}" << endl;
+            cout << "Domain: {yER || " << calcx(baseMb/1000, true) << " < y < " << calcx(0, true) << "}" << endl;
             cout << endl;
         }
         bool afford(double budget, double tot){
@@ -147,22 +146,22 @@ int main(){
 
     int choice;
     string opt[7] = {"See Names", "See Plans", "See Rankings", "Inspect Plans", "See Ripoff", "HOME", "QUIT"};
-    cout << "Type in the corresponding number for the action you'd like to do." << endl;
     for(int i = 0; i < 7; i++){
         cout << i+1 << ". " << opt[i] << endl;
     }
-    cin >> choice;
+    cout << "Type in the corresponding number for the action you'd like to do: ";
+    cin >> choice; cout << endl;
     switch(choice){
         case 1:
             for(int i = 0 ; i < numOfPeople; i++){
                 cout << i + 1 << ". " << person[i].name << endl;
             }
-            cin >> choice;
+            cin >> choice; cout << endl;
         case 2:
             for(int i = 0; i < numOfPlans; i++){
                 cout << i + 1 << ". " << plan[i].company << " " << plan[i].planName << endl;
             }
-            cin >> choice;
+            cin >> choice; cout << endl;
         case 3:
             int rankChoice; 
             cout << "Please select a person to view rankings. Alternatively, enter 0 to see all." << endl;
@@ -175,13 +174,13 @@ int main(){
             }else{
                 person[rankChoice - 1].printPlans();
             }
-            cin >> choice;
+            cin >> choice; cout << endl;
         case 4:
             for(int i = 0; i < numOfPlans; i++){
                 cout << plan[i].company << "'s " << plan[i].planName << endl;
                 plan[i].inspect();
                 cout << "--------------------" << endl << endl;
             }
-
+            cin >> choice; cout << endl;
     }
 }
