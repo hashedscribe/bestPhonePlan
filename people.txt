@@ -6,9 +6,10 @@ Mit 1.8 60 27
 Patricia 15.3 43 25
 Zeus 24.5 80 13
 
-4.8 12 24
+Diluc 4.8 12 24
 Persephone 0.3 40 13
-2 54 0.3
-1.5 36 24
+Itto 2 54 0.3
+Childe 1.5 36 24
 Zhongli 7 12.10 23.8
-5 50 22.5
+
+Kaeya 5 50 22.5
