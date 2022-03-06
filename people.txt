@@ -1,14 +1,13 @@
 //name, gb used, budget ($), ripoff (cents)
 
-Bob 10 70 10
+Bob 2 70 10
 Tim 5.5 73 17.2
-Mit 8 36 27
-
-10 85 13
+Mit 1.8 60 27
+Patricia 15.3 43 25
+Zeus 24.5 80 13
 4.8 12 24
-0.3 40 13
+Persephone 0.3 40 13
 2 54 0.3
 1.5 36 24
-15.3 43 25
-7 12.10 23.8
+Zhongli 7 12.10 23.8
 5 50 22.5

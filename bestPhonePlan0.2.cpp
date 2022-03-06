@@ -58,13 +58,24 @@ class Plan{
             }
         }
 };
+class PersonsPlan{
+    public:
+        string company, planName;
+        double calcx, calcy;
+        void setup(string icompany, string iplanName, double icalcx, double icalcy){
+            company = icompany;
+            planName = iplanName;
+            calcx = icalcx;
+            calcy = icalcy;
+        }
+};
 class Person{
     public: 
         string name;
         double used; //monthly data usage in (gb)
         double budget; //max price ($)
         double ripoff;
-        vector <double> deals;
+        vector <PersonsPlan> deals;
 };
 
 int main(){
@@ -89,12 +100,21 @@ int main(){
     }
     cout << endl;
 
+    double tempCalcx, tempCalcy;
+    bool tempAfford;
+
     for(int j = 0; j < numOfPeople; j++){
         for(int i = 0; i < numOfPlans; i++){
+            tempAfford = plan[i].afford(person[j].budget, person[j].used);
+            tempCalcx = plan[i].calcx(person[j].used, tempAfford);
+            tempCalcy = plan[i].calcy(person[j].ripoff, tempAfford);
+
             cout << plan[i].company << "'s " << plan[i].planName << ": " << endl;
             //bool if overcharge by seeing if data used each month exceeds the provided
-            cout << "Price per mb (cents): " << plan[i].calcx(person[j].used, person[j].used * 1000 > plan[i].baseMb) << endl;
-            if(plan[i].afford(person[j].budget, person[j].used)){ //test if they can afford each plan
+            cout << "Price per mb (cents): " << tempCalcx << endl;
+            if(tempAfford){ //test if they can afford each plan
+                person[j].deals.push_back(PersonsPlan());
+                person[j].deals[person[j].deals.size()-1].setup(plan[i].company, plan[i].planName, tempCalcx, tempCalcy);
                 cout << plan[i].company << "'s " << plan[i].planName << " is within " << person[j].name << "'s budget and will be considered." << endl << endl;
             }else{
                 cout << plan[i].company << "'s " << plan[i].planName << " exceeds " << person[j].name << "'s budget. Consider lowering your data usage or not being poor." << endl << endl;
