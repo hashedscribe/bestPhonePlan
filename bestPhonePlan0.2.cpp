@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 class Plan{
@@ -21,7 +22,7 @@ class Plan{
         }
         double calcy(double cpmb, double overcharge){
             if(overcharge){
-                return (cpmb * baseMb + basePrice)/rate - cpmb;
+                return (cpmb * baseMb - basePrice)/(rate - cpmb);
             }else{
                 return basePrice/cpmb;
             }
@@ -31,17 +32,17 @@ class Plan{
             cout << "There is no x or y intercept." << endl; //x int
             cout << "VA: y = 0. You cannot find an average cost per mb if no mb is used." << endl; //va
             cout << "HA: y = 0. The data will never be free." << endl; //ha
-            cout << "Range: {xER || 0 < x <= " << baseMb << "}" << endl;
-            cout << "Domain: {yER || y >= " << calcx(0, true) << "}" << endl;
+            cout << "Domain: {xER || 0 < x <= " << baseMb << "}" << endl;
+            cout << "Range: {yER || " << calcx(0, true) << " <= y }" << endl;
             cout << endl;
 
             cout << "With overcharge: " << endl;
             cout << "There is no relelvant x intercept." << endl;
-            cout << "y intercept: " << calcx(0, true) << ". price of 1 mb there is no overcharge" << endl;
+            cout << "y intercept: " << calcx(0, true) << ". This is the price of 1 mb when there is no overcharge" << endl;
             cout << "There is no relevant vertical asymptote." << endl;
             cout << "HA: y = " << rate << ". You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
-            cout << "Range: {xER || x > " << baseMb << "}" << endl;
-            cout << "Domain: {yER || " << calcx(baseMb/1000, true) << " < y < " << calcx(0, true) << "}" << endl;
+            cout << "Domain: {xER || " << baseMb << " < x }" << endl;
+            cout << "Range: {yER || " << calcx(0, true) << " < y < " << rate << "}" << endl;
             cout << endl;
         }
         bool afford(double budget, double tot){
@@ -62,13 +63,12 @@ class Plan{
 class PersonsPlan{
     public:
         string company, planName;
-        double calcx, calcy;
-        
-        void setup(string icompany, string iplanName, double icalcx, double icalcy){
+        double calcx;
+
+        void setup(string icompany, string iplanName, double icalcx){
             company = icompany;
             planName = iplanName;
             calcx = icalcx;
-            calcy = icalcy;
         }
 };
 class Person{
@@ -102,9 +102,6 @@ class Person{
                 }
             }
         }
-        void ripoff(){
-
-        }
 };
 
 int main(){
@@ -128,18 +125,17 @@ int main(){
     }
     cout << endl;
 
-    double tempCalcx, tempCalcy;
+    double tempCalcx;
     bool tempAfford;
 
     for(int j = 0; j < numOfPeople; j++){
         for(int i = 0; i < numOfPlans; i++){
             tempAfford = plan[i].afford(person[j].budget, person[j].used);
             tempCalcx = plan[i].calcx(person[j].used, false);
-            tempCalcy = plan[i].calcy(person[j].ripoff, person[j].used > plan[i].baseMb);
 
             if(tempAfford){ //test if they can afford each plan
                 person[j].deals.push_back(PersonsPlan());
-                person[j].deals[person[j].deals.size()-1].setup(plan[i].company, plan[i].planName, tempCalcx, tempCalcy);
+                person[j].deals[person[j].deals.size()-1].setup(plan[i].company, plan[i].planName, tempCalcx);
             }
         }
     }
@@ -148,11 +144,11 @@ int main(){
     }
 
     int choice;
-    string opt[5] = {"See Rankings", "Inspect Plans", "See Ripoff", "HOME", "QUIT"};
-    for(int i = 0; i < 5; i++){
+    string opt[5] = {"See Rankings", "Inspect Plans", "See Ripoff"};
+    for(int i = 0; i < 3; i++){
         cout << i+1 << ". " << opt[i] << endl;
     }
-    cout << "Type in the corresponding number for the action you'd like to do: ";
+    cout << "Type in the corresponding number for the action you'd like to take: ";
     cin >> choice; cout << endl;
     switch(choice){
         case 1:
@@ -203,5 +199,24 @@ int main(){
             cin >> personRangeStart >> personRangeEnd;
             cout << "Please enter the start and end of the plans you'd like to include in the ripoff judgement (inclusive): ";
             cin >> planRangeStart >> planRangeEnd;
+
+            cout << endl;
+
+            for(int i = 0; i < personRangeEnd + 1 - personRangeStart; i++){
+                cout << person[i].name << " thinks anything above " << person[i].ripoff << " cents/mb is a ripoff." << endl;
+                cout << "To " << person[i].name << ": " << endl;
+                for(int j = 0; j < planRangeEnd + 1 - planRangeStart; j++){
+                    cout << plan[j].company << "'s " << plan[j].planName << " will be worth it when " << person[i].name << " uses " << plan[j].calcy(person[i].ripoff, false);
+                    if(plan[j].calcy(person[i].ripoff, true) == 0){
+                        cout << " mb of data exactly." << endl;
+                    }else if(plan[j].calcy(person[i].ripoff, true) < 0 || isinf(plan[j].calcy(person[i].ripoff, true))){
+                        cout << " at the very least." << endl;
+                    }else{
+                        cout << " to " << plan[j].calcy(person[i].ripoff, true) << " mb of data." << endl;
+                    }
+                }
+                cout << endl << "--------------------" << endl;
+            }
+            cin >> choice; cout << endl;
     }
 }
