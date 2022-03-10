@@ -41,7 +41,7 @@ class Plan{
             cout << "y intercept: " << calcx(0, true) << ". This is the price of 1 mb when there is no overcharge" << endl;
             cout << "There is no relevant vertical asymptote." << endl;
             cout << "HA: y = " << rate << ". You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
-            cout << "Domain: {xER || " << baseMb << " < x }" << endl;
+            cout << "Domain: {xER || " << 0 << " < x }" << endl;
             cout << "Range: {yER || " << calcx(0, true) << " < y < " << rate << "}" << endl;
             cout << endl;
         }
