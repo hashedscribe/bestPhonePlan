@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 using namespace std;
 
 class Plan{
@@ -67,6 +68,7 @@ class PersonsPlan{
     public:
         string company, planName;
         double calcx, calcy;
+        
         void setup(string icompany, string iplanName, double icalcx, double icalcy){
             company = icompany;
             planName = iplanName;
@@ -87,6 +89,13 @@ class Person{
                 cout << deals[i].company << "'s " << deals[i].planName << ": " << endl;
                 cout << "Price per mb (cents): " << deals[i].calcx << endl;
                 cout << deals[i].company << "'s " << deals[i].planName << " is within " << name << "'s budget and will be considered." << endl << endl;
+            }
+        }
+        void rank(){
+            for(int i = 0; i < deals.size(); i++){
+                for(int j = 0; j < deals.size(); j++){
+                    
+                }
             }
         }
 };
@@ -126,7 +135,6 @@ int main(){
                 person[j].deals.push_back(PersonsPlan());
                 person[j].deals[person[j].deals.size()-1].setup(plan[i].company, plan[i].planName, tempCalcx, tempCalcy);
             }
-
         }
     }
     for(int i = 0; i < numOfPeople; i++){
