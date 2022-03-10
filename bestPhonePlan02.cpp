@@ -102,13 +102,6 @@ class Person{
                 }
             }
         }
-        void rank(){
-            for(int i = 0; i < deals.size(); i++){
-                for(int j = 0; j < deals.size(); j++){
-                    
-                }
-            }
-        }
 };
 
 int main(){
