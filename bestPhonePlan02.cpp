@@ -11,18 +11,15 @@ class Plan{
 
         double calcx(double tot, bool overcharge){
             tot = tot*1000;
-            if(tot < 0){
-                tot = 0;
-            }
             if((tot <= baseMb) && (overcharge == false)){
                 return basePrice/tot;
             }else{
-                return (basePrice + rate*(tot))/(tot + baseMb);
+                return (basePrice + rate*(tot - baseMb))/(tot);
             }
         }
         double calcy(double cpmb, double overcharge){
             if(overcharge){
-                return (cpmb * baseMb - basePrice)/(rate - cpmb);
+                return (basePrice - cpmb * baseMb)/(cpmb - rate);
             }else{
                 return basePrice/cpmb;
             }
@@ -30,19 +27,19 @@ class Plan{
         void inspect(){
             cout << "Without overcharge: " << endl; 
             cout << "There is no x or y intercept." << endl; //x int
-            cout << "VA: y = 0. You cannot find an average cost per mb if no mb is used." << endl; //va
+            cout << "VA: x = 0. You cannot find an average cost per mb if no mb is used." << endl; //va
             cout << "HA: y = 0. The data will never be free." << endl; //ha
             cout << "Domain: {xER || 0 < x <= " << baseMb << "}" << endl;
-            cout << "Range: {yER || " << calcx(0, true) << " <= y }" << endl;
+            cout << "Range: {yER || " << calcx(baseMb, true) << " <= y }" << endl;
             cout << endl;
 
             cout << "With overcharge: " << endl;
             cout << "There is no relelvant x intercept." << endl;
-            cout << "y intercept: " << calcx(0, true) << ". This is the price of 1 mb when there is no overcharge" << endl;
+            cout << "There is no relevant y-intercept." << endl;
             cout << "There is no relevant vertical asymptote." << endl;
             cout << "HA: y = " << rate << ". You cannot get more expensive than " << rate << " cents per mb." << endl;// ha
-            cout << "Domain: {xER || " << 0 << " < x }" << endl;
-            cout << "Range: {yER || " << calcx(0, true) << " < y < " << rate << "}" << endl;
+            cout << "Domain: {xER || " << baseMb << " < x }" << endl;
+            cout << "Range: {yER || " << calcx(baseMb, true) << " < y < " << rate << "}" << endl;
             cout << endl;
         }
         bool afford(double budget, double tot){
@@ -65,7 +62,7 @@ class PersonsPlan{
         string company, planName;
         double calcx, calcy;
         
-        void setup(string icompany, string iplanName, double icalcx, double icalcy){
+        void setup(string icompany, string iplanName, double icalcx){
             company = icompany;
             planName = iplanName;
             calcx = icalcx;
